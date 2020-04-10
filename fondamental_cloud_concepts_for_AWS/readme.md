@@ -93,3 +93,69 @@ Scenario 3:
 - maximum control of the cloud servers for security and compliance reasons
 
 What kind of computing model would they need to leverage? IaaS
+
+
+## 3. AWS Global Infrastructure 
+The global infrastructure is how AWS deploys and makes accessible its resources globally to its clients. The three main component of the AWS infrastructure are:
+- Regions
+- Availability Zones
+- Edge Locations
+
+### 3.1 AWS Regions and Availability Zones
+
+- Each region is located in a specific geographic location.
+- Each geographic location has a cluster of data centers that work together
+- AWS has currently launched 22 regions ( privat and publib )
+
+The regions operate with smaller units called **Availability Zones**, which
+- consist of one or more **Data Centers**
+- multiple **availability zones** are included with each AWS Region. Each Region has at least two Availability Zones, and each Availability Zone has at leas one Data Center. As a the smallest number of Data Centers that can support a AWS Region is two
+- These are located in the geographic area of the AWS Region
+- The A.Z have redundant power, networking and connectivity to make sure there are no single points of failure that can compromise the QoS
+- There are 69 Availability Zones globally
+
+Now availability is the extent to which an application is fulfilling its intended business purpose. So if we have an application for our company that's mission critical, but it's down all the time, that would be a low‑availability application. But if we have a situation where we have an application that is mission critical, and it's up all the time, we could call that a highly available application. And that's done by making sure that no single point of failure will lessen the application's ability to be fully operational. So the concept of an availability zone is that if we deploy our applications and experiences across multiple availability zones within an AWS Region, we minimize any single point of failure in taking our application down. 
+
+Region and Availability Zone Naming:
+
+    us-east-2a
+    -- Area (Usa, Europe, Asia)
+    -- Sub-erea 
+    -- Number (because could be multiple regions within the same area) 
+       Letter (designating the availability zone )
+   
+Region name : us-east-2 (Usa east 2 which is located in Ohio)
+Availability Zone: us-east-2**a** ( other a.z would be 2b or 2c)
+
+### 3.2 AWS Edge Locations
+- Are used a part of a global content delivery network (**CDN**)
+
+Now there are two specific services within AWS that leverage these edge locations. So it's important to note when we're talking about **regions** and **availability zones**, those are connected to most every service that exists within AWS. However, when we're talking about **edge locations**, this really just supports two different services. The first of those is **Amazon CloudFront**, which is AWS's global content delivery network, and the second is **Amazon Route 53**, which is Amazon's **DNS** service.
+
+- Utilized by Amazon **CloudFront** (CDN) and Amazon **Route 53** (DNS)
+- Located globally at over 200 different locations (this is the most common and prevalent part of infrastructure within AWS)
+- Allows AWS to serve content from locations closest to users
+
+### 3.3 [Visualizing AWS Global Infrastructure](https://infrastructure.aws/)
+
+### 3.4 Test Scenarios
+Scenario 1: 
+- Company is looking to transition to AWS
+- They are starting gradually with few workloads
+- It is requirement to store backup data in multiple geographic areas
+
+Which element of AWS global infrastructure will best suit this need? Regions
+
+Scenario 2:
+- Company serves content through  their site to users around the globe
+- They are looking to optimize performance to users around the world
+- They want to leverage a Content Delivery Network to improve performance
+
+Which element of the AWS global infrastructure will be used in this case? "Edge Locations"
+
+Scenario 3: 
+- Company transitioning one of their legacy applications to AWS
+- This applications requires an uptime of at least 99.5%
+- They want to be sure any issue at a single data center don't cause an outage. This need to be an **highly available application**.
+
+Which element of the AWS global infrastructure will be used in this case? "Availability Zones"
