@@ -7,7 +7,7 @@ Topics:
 - Economics of cloud computing
 - Tools and services that AWS provides to support infrastructures running in their cloud.
 
-## 2. Understanding Cloud Computing
+## Part 2: Understanding Cloud Computing
 ### 2.1 Creating a new personal AWS account and setting a budget alert.
 I will be using the AWS educate connected with Unipd. In alternative a I can use a personal AWS account and choose the **Free Basic Plan**.
 
@@ -95,7 +95,7 @@ Scenario 3:
 What kind of computing model would they need to leverage? IaaS
 
 
-## 3. AWS Global Infrastructure 
+## Part 3: AWS Global Infrastructure 
 The global infrastructure is how AWS deploys and makes accessible its resources globally to its clients. The three main component of the AWS infrastructure are:
 - Regions
 - Availability Zones
@@ -159,3 +159,171 @@ Scenario 3:
 - They want to be sure any issue at a single data center don't cause an outage. This need to be an **highly available application**.
 
 Which element of the AWS global infrastructure will be used in this case? "Availability Zones"
+
+
+
+
+
+## Part 4: Understanding Cloud Economics
+Capitalized Expenditure (**CapEx**): When building a data center, an organization invests in upfront costs for the building, servers. and supporting equipment. This type of expense to attain a fixed asset is referred to as a **Capitalized Expenditure** or **CapEx**. 
+
+For building a data center is required a large initial up-front-investment for the physical and hardware goods which is a capitalized expenditure.
+
+Another type of expenditure si **Operating Expenditure** (**OpEx**) : The regular day to day expenses of a business are considered Operating Expenditures or OpEx. After building the initial data center, ongoing connectivity, utility, and maintenance costs would be considered OpEx.
+
+Comparison between Data Cents and Cloud Computing:
+
+Manage Your Own Data Center vs Leverage Cloud Infrastructure:
+- Large Up-front costs (CapEx) | NO up-front investment
+- Under-used Capacity or Unmet Demand | You Pay as You go for infrastructure (OpEx)
+- scaling takes time and additional CapEx | Scales to meet users demand and can be provisioned immediately
+- Monthly costs will map to **predicted** infrastructure needs | **Monthly costs** map directly to **User Demand**
+
+### 4.1 Organizing and Optimizing AWS Cost
+
+AWS Cost Explorer: this is a user interface where the user can explore the AWS costs. It provides breakdowns including:
+- By service
+- By cost tag
+- provides predictions for the next three months of cost based on the current usage.
+- recommendations for cost optimization
+- accessible via console and API
+
+AWS Budges: utilizes data from **AWS Cost Explorer** to plan and track your usage across AWS services. It can track cost 
+- per service, 
+- service usage, 
+- reserved instance utilization and coverage,
+- Savings Plans utilization and coverage.
+
+
+AWS Cost Planing tools:
+- **AWS TCO Calculator**: enables an organization to determine what could be saved by leveraging cloud infrastructure. This is for organizations that are considering migrating to the cloud. The TCO calculator will help make a case for transitioning to the cloud
+- **AWS Simple Monthly Calculator**: enables an organization to calculate the costs of running a specific AWS infrastructure.
+
+AWS Resource Tags: metadata assigned to a specific AWS resource. Common use cases include grouping by department, environment, project.
+- Cost allocation report includes costs grouped by active tags.
+- tags can be leveraged within the AWS Cost Explorer
+
+Another way to organize cost is using the **AWS Organization**. It allows us to manage multiple accounts under a single **master** account. Different departaments or different projects can run inside completely different AWS accounts. AWS provides organizations with the ability to leverage **Consolidated Billing** for all accounts. Enables organizations to centralize logging and security standards across accounts.
+
+### 4.3 Using the AWS TCO [Calculator](http://awstcocalculator.com/)
+**TCO** stands for **Total Cost of Ownership**. This helps organizations understand what will cost them to move a workload in the cloud. Comparison the cost of using the cloud versus an organization that is leveraging their own data center. Calculations over 3 year period.
+
+### 4.4 AWS Simple Monthly Calculator
+Helps in calculating the costs of running a workload in AWS. (no comparison)
+
+### 4.5 [Cost Explorer](https://console.aws.amazon.com/billing/home?region=us-east-1#/costexplorer)
+
+## 5. Supporting AWS Infrastructure
+Understanding the tools provided by AWS to supports workloads in the cloud.
+
+### 5.1 Supporting tools
+- AWS Support
+- AWS Personal Health Dashboard : 
+- AWS Trusted Advisor
+
+**AWS Support**:
+- Enables support form AWS resources for workloads running in the cloud
+- Provided in different tiers based on need and scope
+- Includes tools to provide automated answers and recommendations
+
+**AWS Personal Health Dashboard**: provides alerts and remediation guidance when AWS is experimenting events that may impact you.
+
+ **AWS Trusted Advisor**:
+ - Automated tool to check your AWS usage against best practices
+ - Access from AWS console
+ - Different checks are provided based on the AWS Support plan tier
+ - **All AWS customers get access to seven core checks**
+
+The trusted Advisor checks are divided into five different categories:
+- cost optimization
+- performance 
+- security
+- fault tolerance 
+- service limits
+
+### 5.2 AWS Support Plan Differences
+- Communication method
+- Response time
+- cost
+- type of guidance offered
+
+
+**AWS Basic support**:
+- provided for all AWS customers
+- access to Trusted Advisor (7 core checks)
+- 24x7 access to customer service, documentation, forums & whitepapers. No access to AWS tech Engineers for tech implementation questions.
+- access to AWS Personal Health Dashboard
+- No monthly cost
+
+**AWS Developer Support**: This is targeted at individual developer that's looking to get support for running their workloads in AWS.
+- Includes all Basic Support
+- Business hours email access to support engineers
+- Limited to 1 primary contact
+- Paid $29/month (tied to AWS usage)
+
+
+**AWS Business Support**
+- Includes all the features from the Developer Support
+- Full set of Trusted Advisor checks
+- 24/7 phone, email, and chat access to support engineers
+- Unlimited contacts
+- third-party software support
+- $100/month (tied to AWS usage)
+
+**AWS Enterprise Support**
+- Includes all features from the Developer Support
+- Includes designated Technical Account Manager (TAM)
+- Includes concierge support team
+- $15k / month (tied to AWS usage)
+
+**Support Response time**:
+- General Guidance
+    - Dev: 24 business hours 
+    - Business: 24 h
+    - Enterprise: 24 h
+- System Impaired
+    - Dev: 12 bh 
+    - Business: 12 h
+    - Enterprise: 12 h
+- Production System Impaired
+    - Business: 4 h
+    - Enterprise: 4 h
+- Production System Down
+    - Business: 1 h
+    - Enterprise: 1 h
+- Business-Critical System Down
+    - Enterprise: 15 min
+
+General Guidance when we have question we need to have answered.
+System Impaired when something is not working as it should
+Production S. I when a production system not performing at its desired capacity.
+Production System Down when production system is non functional.
+Business-Critical System Down when a core system is completely down.
+
+
+## Preparing the Exam 
+
+Items to Review:
+- Cloud and Traditional Infrastructure. 
+    - How traditional data centers work and what is the difference when we are leveraging the cloud. 
+    - Concepts like Elasticity and how it is different in one versus the other.
+- Elements of AWS Global Infrastructure:
+    - Regions
+    - Availability zones
+    - Edge locations
+    - how this effect the workloads that i choose to run on AWS
+- Funding Cloud Infrastructure, how you found a cloud infrastructure as well as different economic considerations with the cloud.
+    - CapEx vs OpEx
+    - how the model is different
+    - how cloud model fit to usage
+- Forecasting and Managing AWS Costs
+    - AWS Cost Explorer
+    - TCO calculator
+    - Simple Monthly calculator
+    - How each of those can be beneficial to my workload on AWS
+    - how to organize costs using features like tags.
+- AWS Support Plans
+    - different tires that are provided within AWS support plans and understand when you would choose one vs another
+- Additional Support tools
+    - AWS Trusted Advisor and knowing the categories provided for its recommendations
+    - AWS Personal Health Dashboard and when I would use that when I am running workloads on AWS
