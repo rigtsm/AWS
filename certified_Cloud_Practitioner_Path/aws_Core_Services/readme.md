@@ -338,5 +338,28 @@ AWS File Storage and Data Transfer Services
 **S3 Transfer Acceleration**: Feature that can be enabled per bucket that allows for optimized uploading of data using the AWS Edge Locations as a part of Amazon CloudFront. Feature for uploading data into the bucket much faster.
 
 
+### 5.2 Hosting a static Website on S3
+- Creating a new S3 bucket
+- Uploading objects to an S3 bucket
+- Accessing object from S3 bucket from URL
+- Configuring a bucket for website hosting
 
 
+### 5.3 Glacier and Glacier Deep Archive:
+
+Amazon S3 Glacier: Archiving data that will be accessed for rare circumstances.
+- Designed for archiving of data within S3 as separate storage classes. ( holding payment information from customers for 1 year or three years, i will not access them only in rare cases when required)
+- Offers configurable retrieval times (quick or slow retrieval and we will be charged based on the choice )
+- can send files directly or through lifecycle rules in S3 to transition data into S3 Glacier.
+- provides two different storage classes
+    - S3 Glacier
+    - S3 Glacier Deep Archive
+
+**S3 Glacier vs Deep Archive**: 
+- Designed for Archival data
+- 90 day minimum storage duration change | 180 days (saving data for at leas 6 months)
+- can be retrieved in either min or hours (different charges for every speeds)| can be retrieved in hours 
+- you pay a retrieval fe per GB retrieved
+- over 5 times less expensive then S3 Standard Storage Class | 23 times
+
+The AWS Management console can be used to quickly set up Amazon S3 Glacier. Data can then be uploaded and retrieved programmatically (CLI or SDK).
