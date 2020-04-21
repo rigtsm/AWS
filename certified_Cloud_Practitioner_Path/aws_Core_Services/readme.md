@@ -2,6 +2,8 @@
 from pluralsignt.com for AWS Certified Cloud Practitioner Path.
 
 ## 2. Interacting with AWS
+
+Tools for interacting with AWS services:
 - AWS Console. The users can leverage their browser to configure resource.
 - AWS CLI: command line access for administration AWS resources.
 - AWS SDK: Programmatic access to manage AWS resources.
@@ -16,7 +18,7 @@ from pluralsignt.com for AWS Certified Cloud Practitioner Path.
     # using containers
     docker run --rm -it amazon/aws-cli --version
 
-    # sharing credentials 
+    # sharing credentials
     docker run --rm -it -v ~/.aws:/root/.aws amazon/aws-cli --version
 
 **AWS Software Developer Kit (SDK)**: Programming language-specific resources that allows the user to interact with AWS services via code. This approach enables you to automate many aspects of how you interact with the platform. Language supported
@@ -46,8 +48,8 @@ Compute services on AWS:
 
 EC2 Use cases:
 - hosting a web application in the cloud. we can spin up an EC2 instance and on that instance install a web server and save our files for the web application.
-- batch processing. analyzing or pre processing huge amounts of data on en EC2 instance before analyzing it.  
-- web service endpoint 
+- batch processing. analyzing or pre processing huge amounts of data on en EC2 instance before analyzing it.
+- web service endpoint
 - desktop environment instance on the cloud (windows or linux)
 
 Core concepts of EC2:
@@ -74,10 +76,10 @@ Example of EC2 Instance Type Pricing:
 - i3.16xlarger
 
 **Root Device Type**
-- **Instance Storage**: ephemeral storage that is physically attached to the host the virtual server is running on. If we shutdown the instance then the data will be lost. 
+- **Instance Storage**: ephemeral storage that is physically attached to the host the virtual server is running on. If we shutdown the instance then the data will be lost.
 - **Elastic Block Store** (EBS): persistent storage that exists separately from the host the virtual server is running on. The data wil be persistent during time and shutdowns. **Each EBS is attached to a single EC2 instance.**
 
-**Amazon Machine Image (AMI)**: 
+**Amazon Machine Image (AMI)**:
 - Template for an EC2 instance including configuration, operating system, and data
 - AWS provides many AMI's that can be leveraged easy to spin off.
 - AMI's can be shared across AWS accounts
@@ -85,7 +87,7 @@ Example of EC2 Instance Type Pricing:
 ### 3.2 Amazon EC2 Purchase Types:
 Amazon EC2 purchase options when we lunching instances on AWS:
 - On-Demand: you pay by the second for the instances that are launched.
-- Reserved: you purchase at a discount price instances in advance for 1-3 years 
+- Reserved: you purchase at a discount price instances in advance for 1-3 years
 - Spot: you can leverage **unused** EC2 capacity in a region for a large discount
 
 **Reserved Instance Cost Models**:
@@ -95,17 +97,17 @@ Amazon EC2 purchase options when we lunching instances on AWS:
 
 
 **Spot Instances**:
-- Can provide up to 90% discount over on-demand pricing.  
+- Can provide up to 90% discount over on-demand pricing.
 - There is a market price for instance types per availability zone called **Spot price**.
 - When you request instances, if you bid is higher than Spot price then the instance is assigned to the highest bidder and the workload will be launched.
 - If the Spot price grows to exceed your bid, the instances will be terminated
 - Spot instances can be notified 2 minutes prior to termination.
 
-**Spot Instances are very good for workload that can start and stop.** 
+**Spot Instances are very good for workload that can start and stop.**
 
 Amazon EC2 Purchase Options:
 - If I have an instance that is **consistent** (run for at least 3 years, same requirements) and always needed, I should purchase a **Reserved Instance**
-- If we have **batch** processing where the process can **start and stop** without affecting the job, i shot leverage **Spot Instances** 
+- If we have **batch** processing where the process can **start and stop** without affecting the job, i shot leverage **Spot Instances**
 - If I have an **inconsistent** need for instances that cannot be stopped without effecting the job, leverage **On-Demand Instances**.
 
 ### 3.3 Launching EC2 Instances with AWS Console
@@ -126,21 +128,27 @@ We can check the state of our instance at EC2 Dashboard. Under Public DNS we can
 To destroy an instance we go Actions > Instance State > Terminate
 
 
-### 3.4 AWS Elastic Beanstalk 
+### 3.4 AWS Elastic Beanstalk
 
-- Automates the process of deploying and scaling workloads on EC2 (PaaS type approach)
+- Automates the process of deploying and scaling workloads on EC2 (PaaS type approach).
 At high level elastic beanstalk automates the process of deploying and scaling your workloads on EC2. But the difference is instead of dealing with those servers directly, which we would call infrastructure as a service (IaaS), this is more of a platform as a service type approach (PaaS).
 - supports a specific set of technologies
 - Leverage existing AWS services
-- Only pay for the other services you leverage. Set of services that makes easier running other AWS services. We still are running all our workload on EC2, but the process of managing the servers and handling things like provisioning and load balancing, scaling and monitoring are all handled automatically through the work of Beanstalk by connection other services into the overall platform.
+- Only pay for the other services you leverage. Set of services that makes easier running other AWS services. We still are running all our workload on EC2, but the process of managing the servers and handling things like provisioning and load balancing, scaling and monitoring are all handled automatically through the work of Beanstalk by connecting other services into the overall platform.
 
 Supported Application Platforms:
-- java , .Net PHP Node.js Python Ruby Go
+- java
+- .Net
+- PHP
+- Node.js
+- Python
+- Ruby
+- Go
 - Docker
 
 
 Features and Advantages of BeanStalk vs EC2:
-- integrated monitoring tools 
+- integrated monitoring tools
 - managed deployment for multiple servers and load balancing in production environment
 - Scaling
 - EC2 Customizations
@@ -154,7 +162,7 @@ Use Cases:
 **Launching an App on Elastic BeanStalk**
 Using the [node.js tutorial](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/tutorials.html)
 
-AWS Console > Beanstalk 
+AWS Console > Beanstalk
 Application Name
 Platform depends on the tutorial
 Upload your code
@@ -164,15 +172,16 @@ Create App
 Actions > Terminate Application
 
 ### 3.5 AWS Lambda Overview
-**AWS Lambda** lets you run code without provisioning or managing servers. **You pay only for the compute time you consume**. You can run code for virtually any type of application or backend service - all with zero administration.
+**AWS Lambda** lets you **run code** without provisioning or managing servers. **You pay only for the compute time you consume**. You can run code for virtually any type of application or backend service - all with zero administration.
 
 **AWS Lambda**:
 - enables the running of code **without provisioning infrastructure**
 - only charged for usage based on execution time
 - charge depends on amount of memory requested for the function. Configurable memory from 128 to 3008 MB
 - integrates with many AWS services as S3, DynamoDb
-- enables event-driven workflows ( when i upload this file i want to trigger this function)
+- enables event-driven workflows ( when i have a file upload, then trigger this function)
 - primary service for **serverless** architecture approach
+
 
 AWS Lambda Advantages:
 - reduced maintenance requirements
@@ -241,7 +250,7 @@ what EC2 purchase options would be the most cost efficient? Spot Instances
 
 **Elasticity**: the ability for the infrastructure supporting an application to grow and contract based on how much it is used at a point in time.
 
-Elastic Load Balancing:
+**Elastic Load Balancing**:
 - distribute traffic across multiple targets
 - integrates with EC2, ECS, and Lambda
 - supports one or more Availability Zones in a region.
@@ -277,7 +286,7 @@ Amazon CloudFront is a fast content delivery network (CDN) service that securely
 Jane
 - company maintains two corporate data centers
 - they want the data centers to work alongside AWS for specific workloads
-- persistent connection to AWS 
+- persistent connection to AWS
 
 What service AWS would you recommend? **Direct Connect**
 
@@ -310,15 +319,15 @@ AWS File Storage and Data Transfer Services
 **Amazon Simple Storage Service (S3)**:
 - stores file as objects in buckets. Buckets are unit of organization on S3. We have to create a bucket which will have a set of settings and any file that we drop in can have those settings applied to it.
 - provides different storage classes for different use cases
-- stores data **automatically across multiple available zones**, which gives us durability and resiliency for the data.
-- enables URL access to files. sharing a file through a URL
+- stores data _**automatically across multiple available zones**_, which gives us durability and resiliency for the data.
+- enables URL access to files (sharing a file through a URL)
 - offers configurable rules for data lifecycle
 - can serve as a static website host
 
 **Amazon S3 Non-archival Storage Classes**:
-- **S3 Standard** is the default storage class and is for frequently accessed data.
+- **S3 Standard** is the default storage class and is for _**frequently**_ accessed data.
 - **S3 Intelligent-Tiering** will move your data to the correct storage class based on usage.
-- **S3 Standard-IA** is for **infrequently** accessed data with the standard resilience (multiple A.Z.)
+- **S3 Standard-IA** is for _**infrequently**_ accessed data with the standard **resilience** (multiple A.Z.)
 - **S3 One Zone-IA** is for **infrequently** accessed data tha is only stored in on Availability Zone.
 
 **S3 Intelligent Tiering Storage Class**:
@@ -330,18 +339,18 @@ AWS File Storage and Data Transfer Services
 - cost saving if we have data to be moved between the two classes 
 
 **S3 Lifecycle Policies**:
-- Objects in a bucket can transition or expire based on your criteria
-- transitions can enable objects to move to another storage class based on **time**. Moving based on usage is available on the Intelligent class.
-- Expiration can delete object based on age 
+- Objects in a bucket can transition or expire based on the settings criteria
+- transitions can enable objects to move to another storage class based on **time**. Moving based on usage is available on the **Intelligent** class.
+- Expiration can delete object based on age
 - Policies can also factor in **versions** of a special object in the bucket
 
-**S3 Transfer Acceleration**: Feature that can be enabled per bucket that allows for optimized uploading of data using the AWS Edge Locations as a part of Amazon CloudFront. Feature for uploading data into the bucket much faster.
+**S3 Transfer Acceleration**: Feature that can be enabled per bucket that allows for optimized uploading of data using the AWS Edge Locations as a part of Amazon **CloudFront**. Feature for uploading data into the bucket much faster.
 
 
 ### 5.2 Hosting a static Website on S3
 - Creating a new S3 bucket
 - Uploading objects to an S3 bucket
-- Accessing object from S3 bucket from URL
+- Accessing objects on S3 bucket from URL
 - Configuring a bucket for website hosting
 
 
@@ -349,7 +358,7 @@ AWS File Storage and Data Transfer Services
 
 Amazon S3 Glacier: Archiving data that will be accessed for rare circumstances.
 - Designed for archiving of data within S3 as separate storage classes. ( holding payment information from customers for 1 year or three years, i will not access them only in rare cases when required)
-- Offers configurable retrieval times (quick or slow retrieval and we will be charged based on the choice )
+- Offers configurable retrieval times (**quick or slow** retrieval and we will be charged based on the choice )
 - can send files directly or through lifecycle rules in S3 to transition data into S3 Glacier.
 - provides two different storage classes
     - S3 Glacier
@@ -357,7 +366,7 @@ Amazon S3 Glacier: Archiving data that will be accessed for rare circumstances.
 
 **S3 Glacier vs Deep Archive**: 
 - Designed for Archival data
-- 90 day minimum storage duration change | 180 days (saving data for at leas 6 months)
+- 90 days minimum storage duration change | 180 days (saving data for at leas 6 months)
 - can be retrieved in either min or hours (different charges for every speeds) | can be retrieved in hours 
 - you pay a retrieval fee per GB retrieved
 - over 5 times less expensive then S3 Standard Storage Class | 23 times
@@ -376,7 +385,7 @@ The AWS Management console can be used to quickly set up Amazon S3 Glacier. Data
     - infrequent access
 - configurable lifecycle data rules for transitioning between the two storage classes
 
-The difference with the EBS is that EBS are attached to a single EC2 instance, instead EFS has the ability to be a network file system that we can attach to multiple instances at the same time
+_**The difference with the EBS is that EBS are attached to a single EC2 instance, instead EFS has the ability to be a network file system that we can attach to multiple instances at the same time**_
 
 
 Amazon FSX for **Windows File Server**:
@@ -389,7 +398,7 @@ Amazon FSX for **Windows File Server**:
 
 
 ### 5.5 Data transfer with **AWS Snowball**
-How to transfer large amount of data into AWS cloud without passing through the public internet ?
+How to transfer large amount of data into AWS cloud without _**passing**_ through the **public internet** ?
 
 AWS Large Scale Data Transfer Service:
 - **AWS Snowball**: service to physically migrate petabyte scale data to AWS
@@ -397,8 +406,8 @@ AWS Large Scale Data Transfer Service:
 
 Large-scale Data transfer into AWS: Snowball vs Snowmobile:
 - Designed for large-scale data transfers
-- petabyte scale transfer | exabyte
-- physical device is delivered by AWS to the our office | shipping container (huge/large)
+- petabyte scale transfer || exabyte
+- physical device is delivered by AWS to the our office || shipping container (huge/large)
 - we upload the data on the device | AWS sets up a connection for uploading the data
 - the device is returned by local carrier back to AWS
 - AWS loads the data from the device to S3 
@@ -412,8 +421,8 @@ Elaine:
 - hight demand during the first week
 - after the first week this assets  are rarely accessed
 
-how to reduce the S3 costs maintaining durability (multiple copies)? 
-Solution: S3 lifecycle rules with **S3-standard AI** storage class 
+how to reduce the S3 costs maintaining durability (multiple copies)?
+Solution: S3 lifecycle rules with **S3-standard IA** storage class
 
 
 
@@ -436,29 +445,29 @@ What approach is ok for Emily? EFS (NFS)
 ## 6. Databases Services and Utilities
 
 AWS Databases & Related Services:
-- Amazon RDS
-- Amazon Aurora
-- Amazon DynamoDB
+- Amazon RDS (PaaS)
+- Amazon Aurora (PaaS)
+- Amazon DynamoDB (SaaS)
 - Amazon Redshift
 - Amazon Elasticache
 - AWS Database Migration Service
 
-Different approaches: 
-- **IaaS** (Maximum Control over everything) 
-    - we would have a Database on EC2
-- **PaaS** Relation Database Service (RDS) 
+Different approaches:
+- **IaaS** (Maximum Control over everything)
+    - we would instal a Database on a EC2 instance
+- **PaaS** Relation Database Service (RDS)
     - control on the database but not on the infrastructure
-- **SaaS** (Minimum maintenance) 
+- **SaaS** (Minimum maintenance)
     - DynamoDB, Elasticache, Redshift
 
 
 ### 6.1 Amazon Relational Database Service (PaaS RDS)
 
-It uses the PaaS approach for running databases that we can leverage within our applications that are running on the platform. First it is important to note that it is a fully managed service for relation databases.
+It uses the **PaaS** approach for running databases that we can leverage within our applications that are running on the platform. First it is important to note that **it is a fully managed service** for relation databases.
 
 **RDS**:
 - Fully managed service for relational databases
-- handles provisioning, patching, backups, and recovery of your database
+- handles provisioning, patching, backups, and recovery of the database
 - supports deployments across multiple availability zones (mylti-AZ)
 - some platforms support read replicas ( helps scaling out the database)
 - launches into a VPC
@@ -472,7 +481,7 @@ Amazon **RDS Platforms**:
 - SQL Server
 - Amazon Aurora
 
-**Amazon Aurora** is a MySQL and PostgreSQL-compatible relational database built for the cloud, that combines the performance and availability of traditional enterprise databases with the simplicity and cost-effectiveness of open source databases
+**Amazon Aurora** is a MySQL and PostgreSQL-compatible relational database built for the **cloud**, that combines the performance and availability of traditional enterprise databases with the simplicity and cost-effectiveness of open source databases
 
 **Amazon Database Migration Service (DMS)**:
 - Enables you to move data into AWS from existing databases
@@ -481,7 +490,7 @@ Amazon **RDS Platforms**:
 - only pay the compute leverage in the migration process
 
 ### 6.2 Amazon DynamoDB Overview (SaaS)
- - fully managed NoSQL service (SaaS)
+ - **fully managed NoSQL service (SaaS)**
  - provides both key-value and document database
  - enables extremely low latency at virtually any scale
  - supports automated scaling based on configuration
@@ -499,7 +508,7 @@ Amazon **RDS Platforms**:
 
  **Elasticache**:
  - is a fully managed in-memory data store
- - supports both Memcached and Redis
+ - supports both **Memcached** and **Redis**
  - provides low latency in response times
  - enables scaling and replicas to meet application demand
  - handles common use cases including:
@@ -507,7 +516,7 @@ Amazon **RDS Platforms**:
     - session storage 
 
 **Redshift**:
-- Scalable data warehouse service
+- Scalable data **warehouse** service
 - supports petabyte 10^15 scale warehousing of data
 - leverages high performance disks and columnar storage
 - offers the ability to fully encrypt the contents
@@ -545,14 +554,14 @@ What approach would you recommend? DynamoDB
 - **Amazon SQS** (simple queue service): Managed message queue service
 - **AWS Step Function**: Serverless workflow management service
 
-### 7.1 AWS Messaging Services 
+### 7.1 AWS Messaging Services
 
 **SNS (Simple Notification Service  )**
 - fully managed pub/sub messaging service
 - enables you to create decoupled applications
 - organized according to topics
 - integrates with multiple AWS services
-- provides end user notifications across SMS, email, and push notifications.  
+- provides end user notifications across SMS, email, and push notifications.
 - messages are not saved, they trigger actions and after disappear
 
 
@@ -563,14 +572,14 @@ What approach would you recommend? DynamoDB
 - allows messages to be stored up to 14 days
 - provides two types of queues
     - standard queue
-    - FIFO queue  
+    - FIFO queue
 
 Example of SNS & SQS Architecture:
 ![picture](./img/sns_sqs.png)
 
 ### 7.3 AWS Step Functions
 - enables orchestration of **workflows** through a fully managed service
-- supports serverless architectures 
+- supports serverless architectures
 - can support complex workflows including error handling
 - charged per state transaction along with the other AWS services leveraged
 - Workflows are defined using Amazon States Language
@@ -580,7 +589,7 @@ Example of Workflow Architecture:
 
 
 AWS Step Function Integrations:
-- compute services (integrate with lanbda) 
+- compute services (integrate with lanbda)
 - database services
 - messaging services (SQS, SNS)
 - data processing services
@@ -590,17 +599,16 @@ This is a powerful tool that can be used to build out very complex work flows an
 
 ### 7.4 Scenarios
 
-Ruth: 
+Ruth:
 - database server went down and uses were unable to signup
 - there is no guarantee for no downtime
 - AWS service to prevent lost of your signups
 
 Fault tolerant problem.
-
-What AWS service would you recommend? SQS 
+What AWS service would you recommend? SQS
 
 Jessi:
-- complex workflow 
+- complex workflow
 
 What AWS service would you recommend? Step Function
 
@@ -623,12 +631,12 @@ SNS
 
 ### 8.1 AWS CloudTrail
 
-With **CloudTrail**, you can log, continuously monitor, and retain account activity related to actions across your AWS infrastructure. CloudTrail provides event history of your AWS account activity, including actions taken through the AWS Management Console, AWS SDKs, command line tools, and other AWS services.
+With **CloudTrail**, you can log, continuously monitor, and retain **account activity** related to actions across your AWS infrastructure. CloudTrail provides event history of your **AWS account** activity, including actions taken through the AWS Management Console, AWS SDKs, command line tools, and other AWS services.
 
 - Inserts audit trail in an **S3** bucket or into **CloudWatch Logs**
 - Logs events in the regions in which they occur
 - meets many compliance requirements for infrastructure auditing
-- as a best practice, it should be enabled on every AWS account 
+- as a best practice, it should be enabled on every AWS account
 - can be consolidated into an Organizational trail using AWS Organizations
 
 AWS CloudTrail Use Cases:
@@ -648,18 +656,16 @@ AWS CloudTrail Use Cases:
 - collects logs, metrics, and events from most AWS services
 - enables alarms based on metrics
 - provides visualization capabilities for metrics
-- allows fro custom dashboards based on collected metrics
+- allows for custom dashboards based on collected metrics
 
-**AWS Config** continuously monitors and records your AWS resources configurations and allows you to automate the evaluation of recorded configurations against desired configurations.
-
-**AWS Config**:
+**AWS Config** continuously monitors and records your AWS resources configurations and allows you to automate the evaluation of recorded configurations against desired state
 - provides configuration history for infrastructure
 - works against rules that you can customize or even create custom validations
 - includes conformance packets for compliance standards including PCI-DSS (payments)
 - can work with AWS Organizations for both cross-region and cross-account
 
 
-### 8.3 AWS Systems Manager  
+### 8.3 AWS Systems Manager
 
 **AWS Systems Manager**  provides a unified user interface so you can view operational data from multiple AWS services and allows you to automate operational tasks across your AWS resources.
 - provides multiple tools that make it easier to manage your AWS infrastructure
@@ -675,7 +681,7 @@ AWS CloudTrail Use Cases:
 - manages dependencies between resource
 - provides drift detection to find changes in the infrastructure
 
-### 8.5 AWS Organizations and Control Tower
+### 8.5 AWS Organizations & Control Tower
 
 **AWS Organizations**:
 - allows organizations to manage **multiple** accounts under a **single master** account
@@ -701,9 +707,9 @@ Elliot is Ops engineer
 Which service would allow the organization to continually track configuration of infrastructure?
 **AWS Config**
 
-James 
+James
 - launching a new app with multiple components
-- minimize manual work required when creating infrastructure 
+- minimize manual work required when creating infrastructure
 
 What service would enable James to automate much of this effort? **CloudFormation**
 

@@ -1,0 +1,9 @@
+- AWS Management Console
+- AWS Command Line Interface CLI
+- AWS Software Development Kit SDK
+- Compute Services
+- Elastic Compute Cloud EC2
+- AWS Elastic Beanstalk
+- AWS Lambda
+- Instance Storage
+- Elastic Block Store (EBS)
