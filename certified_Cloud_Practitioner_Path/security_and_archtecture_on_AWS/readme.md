@@ -46,8 +46,9 @@ AWS has collected this information on a [website](https://aws.amazon.com/archite
 
 ### 2.5 Hight-availability and Fault Tolerance 
 Both of this concepts fall under the **Reliability** pillar of the Well-Architectured Framework.
+
 **"Everything fails all the time"** CTO, Amazon
- Building knowing that failure can happen in anytime on our architecture.
+ We should build knowing that failure can happen in anytime on our architecture.
 
  **Reliability on AWS**: 
  - **Fault Tolerance**: being able to support the failure of components within your architecture
@@ -55,7 +56,7 @@ Both of this concepts fall under the **Reliability** pillar of the Well-Architec
 
 Building Solutions on AWS: 
 - Most managed AWS services provide high-availability out of the box 
-- when building solutions directly on EC2 fault tolerance must be architectured. For solutions that are IaaS, this is where we have to consider fault tolerance and we will have to figure out how to built into our custom solutions
+- when building solutions directly on EC2 fault tolerance must be architectured. For solutions that are **IaaS**, this is where we have to consider fault tolerance and we will have to figure out how to built into our custom solutions
 - Multiple Availability zones should be leveraged so that we can deal with potential failure of a complete zone within a region.
 - Some services can enable fault tolerance in our custom applications (SQS, Routo 53 to detect of there end point non available and route the users to an available server)
 
@@ -81,7 +82,7 @@ Demo:
 - Exploring conformance packs in **AWS Config**
 
 
-### Scenarios
+### 2.7 Scenarios
 
 Jane:
 - app for processing Credit Cards
@@ -105,13 +106,56 @@ Ellen:
 What resource should they review before planing? **AWS Well-architectured Framework**.
 
 
+## 3 AWS Identities and User Management
 
+**"Least Privilege Access"**: When granting permission access to a user on AWS resources, we should grant them the minimum permissions needed to complete their task and no more. 
 
+### 3.1 AWS Identity & Access Management (**IAM**)
+- This is the service that controls access to AWS resources. This is the service where we can create a user and configure what are their permissions.
+- IAM is a free services
+- Manges both authentication (verifies users) and authorization (what the user can do ) 
+- Supports identity federation through **SAML** providers including Active Directory. This allows us to use an external identity provider to handle the authentication.
+
+**IAM Identity types**
+- **User**: Account for a single individual to access AWS resources. New employ > new account and assign permission to access specific resources.
+- **Group**:  allows you to manage permissions for a group of IAM users. We create IAM for each user, we create group and set all the permissions for specific resources and after we add users to this group. which users will inherit the permissions of the group. 
+- **Roles**: enables a user or AWS service to assume permissions for a task. Is like a sudo command for a user or when we give permissions to a service to run with root privileges on linux. Or we can consider an EC2 instance that needs to write data to an S3 bucker, but by default it can't do it, se we can assign to the EC2 instance a Role with permission to write data to S3 bucket.
+
+How do we assign permissions? This leads to the concept of Policies which is just a Json document that defines permissions for an IAM identity.
+
+**Policies in AWS IAM**:
+- A JSON document that defines permissions for an AWS **IAM** identity ( user, group, role)
+- Defines both the AWS services that the identity can access and what actions can be taken on that service.
+    - EC2 server with permission for read and write to a specific S3 bucket, but not permission for deleting the bucket 
+- Can be either customer managed or managed by AWS   
+    - AWS managed policies are already created and can be used without the need to create custom policies, like:
+        - Read access to an AWS account
+        - Full access to S3
+
+![Policy example](./img/policy.png)
+
+**AWS IAM Best Practices**:
+- **Multi-Factor Authentication**: provides additional security with either physical or virtual device that generates a token for a login.
+- **Least Privilege Access**: users should only be granted access to AWS resources that are required for their current tasks.
+
+### 3.2 Creating an Managing IAM Users
+Demo
+- Creating a new IAM user
+- Configuring permissions for the IAM users
+- Creating an IAM Group
+- Attaching permissions to an IAM Group
+
+### 3.3 Enabling Multi-factor Authentication
 
 
 
 
  
+
+
+
+
+
 
 
 
