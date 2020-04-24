@@ -146,10 +146,52 @@ Demo
 - Attaching permissions to an IAM Group
 
 ### 3.3 Enabling Multi-factor Authentication
+Demo:
+- Enabling MFA for the root user
+- Enabling MFA for an IAM user
 
 
+### 3.4 Amazon Cognito
 
+**Amazon Cognito**: A managed service that enables you to handle authentication and aspects of authorization for your custom web and mobile applications through AWS 
 
+**Amazon Cognito**:
+- is a fully managed user directory service for custom applications. IAM deals with permissions for AWS resources, but what happen if we basically want to implement something similar for our custom application. Then Cognito fill that role.
+- Provides UI components to be integrated for many platforms.
+    - sign in
+    - sign up 
+- Provides security capabilities to control account access
+- Enables controlled access to AWS resources (intersection with IAM). Example
+    - web app that lets users upload foto, we have to be sure that users have access to a specific part of the S3 bucket that is just for them. There is a way with **Cognito** to configure access to specific pieces of AWS infrastructure that you would want a user to have access to, but **without having them to sign up for an IAM account** 
+- Can work with social and enterprise identity providers. Letting users to log in with a Google account and have that correspond to a Cognito identity.
+
+**Cognito Identity Providers**:
+- Google
+- Amazon 
+- Facebook 
+- Microsoft Active Directory
+- SAML 2.0 Providers
+
+Cognito gives us the possibility to use this level of authentication/authorization and tie it into our custom application. 
+
+### 3.5 Scenarios
+Sylvia:
+- team of DevOps
+- each member needs to have the same access to the cloud system
+
+What approach would help Sylvia manage the team's permissions? Create IAM and assign to a Group
+
+Edward:
+- the EC2 servers need to access data stored within S3 buckers
+- created a user in IAM for these servers and uploaded keys to the server
+
+Is he following best practice for this approach? Use Roles for EC2 instances
+
+William:
+- migrating to the cloud
+- concerns for securing access with password to AWS resources
+
+Additional level os Security? Two factor Authentication
  
 
 
