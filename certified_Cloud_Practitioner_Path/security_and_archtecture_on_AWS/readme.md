@@ -192,13 +192,117 @@ William:
 - concerns for securing access with password to AWS resources
 
 Additional level os Security? Two factor Authentication
- 
+
+## 4. Data Architectures on AWS
+
+### 4.1 Integrating On-premise Data
+
+- **AWS Storage Gateway**: Hybrid-cloud storage service.
+    - Integrates cloud storage into the local network
+    - Deployed as a VM or a specif hardware  appliance to running the Storage Gateway software on it onto our network.
+    - Integrates with S3 and EBS
+    - Supports three different gateways types:
+        - Tape gateway:
+            - Tape backup virtual experience
+        - Volume gateway:
+            - provides cloud based iSCSi volumes to local applications for the data actually stored in the cloud
+        - File gateway
+            - Stores files in S3 while providing cached low-latency local access (stores files in S3 but keeping certain files on the storage gateway device so we can have low latency access, also using local **cash** pulling certain files or the one that are most recently accessed )
+- **AWS DataSync**: Automated data transfer service. Setting up a system network to send data from the local data center to AWS.
+    - Leverages a **DataSync** agent deployed as a VM on our network.
+    - Integrates with S3, EFS, and FSx for Windows File Server on AWS 
+    - Greatly improved speed of transfer due to custom AWS protocol and optimization
+    - Charged for GB of data transferred 
+
+### 4.2 Processing Data on AWS
+
+- **AWS Glue**: Manged Extract, Transform, and Load **ETL** Service. ETL means that we have data stored somewhere, we need to pull it out from where it is stored (Extract), then we have to transform so will have to do things like normalizing the data. Then we have the Load step, this means that we have to put the data in a different location where it will be analyzed. And this is the ELT process.
+- **Amazon EMR**: Elastic Map Reduce is a big data cloud processing service
+- **AWS Data Pipeline**: data workflow orchestration service across AWS services. This a service for managing how the data get from point A to point B, especially if it needs to go through a specific type of AWS service in the middle, this is where **Data Pipeline** can be very helpful.
+
+**AWS Glue**:
+- fully managed ETL (extract, transform and load) service on AWS 
+- supports data in Amazon RDS, DynamoDB, Redshift, and S3
+- supports a serverless model of execution ( we just use the service which handles everything)
+
+**Amazon EMR (Elastic Map Reduce)**:
+- Enables big-data processing on Amazon EC2 and S3
+- Supports open-source frameworks and tools
+    - Apache Spark, Flink, Hive, Hudi, HBase, Presto
+- operates in a **cluster** environment without additional configuration
+
+**AWS Data Pipeline**:
+- managed ETL service on AWS
+- manages data workflow through AWS services
+- supports S3, EMR, Redshift, DynamoDB, and RDS
+- can integrate on-premise data stores within our data pipelines.
+
+### 4.3 Analyzing Data
+
+**Data Analysis Services**:
+- Amazon Athena: Service that enables querying of data stored in Amazon S3
+- Amazon Quicksignt: Business intelligence service enabling data dashboards
+- Amazon CloudSearch: managed search service for custom applications
+
+**Amazon Athena**:d
+-  Fully managed serverless service ( we don't have to configure any of the underlying infrastructure, we have just lo leverage the service )
+- enables querying of large-scale data stored in Amazon S3 (Data lakes approach)
+- queries are written in SQL
+- charged based on the data scanned for the query
 
 
+**Amazon Quicksignt**:
+- fully managed business intelligence service
+- enables dynamic data dashboards based on data stored in AWS
+- charged on a per-user and per-session pricing model
+- multiple versions provided based on needs
+
+**Amazon CloudSearch**
+- fully-managed search service on AWS
+- support scaling of search infrastructure to meet demand
+- charged per hour and instance type of search infrastructure
+- enables developers to integrate search into custom applications
 
 
+### 4.4 Integrating AI and Machine Learning
+
+- **Amazon Rekognition**: Computer vision service powered by ML. We can get insights out of images that we have stored on the platform.
+    - Fully managed image and video recognition depp learning service 
+    - identifies objects in images
+    - identifies objects and actions in videos
+    - can detect specific people using facial analysis
+    - supports custom labels for our business objects
+- **Amazon Translate**: text translation service powered by ML
+    - fully managed service for translation of tex
+    - currently supports 54 languages
+    - can perform language identification
+    - works both in batch and real-time
+- **Amazon Transcribe**: speech to text solution using ML
+    - fully manages speech recognition service
+    - recorded speech is converted into text in custom applications
+    - includes a specific sub-service for medical use ( medical terms )
+    - batch and real time transcription
+    - 31 languages supported
+
+### Scenarios:
+
+Ruth:
+- process large scale data set needs to be processed before analysis
+- just want to define the processing
+
+What service would be useful for her??? **AWS Glue**
+
+Jessi:
+- working to identify an approach for controlled lab access with facial recognition
+
+Is there an AWS service that can help with this approach? **Amazon Rekognition**
 
 
+Roger:
+- ways to visualize the data sales
+- is currently stored in Redshift(data warehouse)
+
+What AWS service would allow this access to the data by non-technical resources? **Amazon Quicksignt**
 
 
 
