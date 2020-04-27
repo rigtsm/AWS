@@ -304,6 +304,271 @@ Roger:
 
 What AWS service would allow this access to the data by non-technical resources? **Amazon Quicksignt**
 
+### 5. Disaster Recovery:
 
+**Disaster recovery**(DR) is about preparing for and recovering from a disaster. Aby event that has a negative impact on a company's business continuity or finances could be termed a disaster.This includes hardware or software failure, a network outage, a power outage, physical damage to a building like fire of flooding, human error, or some other significant event.
+
+### 5.1 Disaster Recovery Architecture:
+
+**Disaster Recovery Scenarios** listed in increasing Cost&Complexity and decreasing Recovery Time
+- Backup and Restore
+- Pilot Light
+- Warm Standby
+- Multi Site
+
+![dc](./img/dr.png)
+
+**Backup and Restore**:
+- Production data is backed up into Amazon S3
+- Data can be stored in either standard or archival storage classes
+- EBS data can be stored as snapshots in Amazon S3 also
+- In a Disaster Recovery event. a process is started to launch new environment instances 
+- This approach has the longest recovery time (the time needed for being up and running another time), and has the least cost.
+
+**Pilot Light**:
+- Key infrastructure components are kept running in the cloud
+- Designed to reduce the recovery time over the Backup&Restore approach
+- Does incur cost of this infrastructure continually running in the cloud.
+- AMIs are prepared for additional systems and can be launched quickly.
+
+The **pilot light** method gives you a quicker recovery time then the backup-&-restore method because the **core pieces** of the system are already running and are continually kept up to date. 
+
+
+**Warm Standby**: 
+- A scaled-down version of the full environment is running in the cloud
+- Critical systems can be running on less capable instance types
+- Instance types and other systems can be up for disaster recovery event
+- Does incur cost of this infrastructure continually running in the cloud
+
+**Multi Site** (on-premise + cloud infrastructure up and running,or running in more then one region):
+- full environment is running in the cloud
+- utilizes instances types needed for the production not just recovery
+- provides a near seamless recovery process
+- incurs the most cost over the other approaches
+
+### 5.2 Selecting a Disaster Recovery Architecture for an Organization
+Values that we have to take in consideration for the decision
+- **Recovery Time Objective (RTO)**
+- **Recovery Point Objective (RPO)**
+
+
+**Recovery Time Objective (RTO)**: the time it takes to get your system back up and running to the ideal business state after a disaster recovery event.
+
+**Recovery Point Objective (RPO)**: the amount of data loss (in terms of time) for a production system during a disaster recovery event. Loosing data of 1 hour, after it i have to be up and running.
+
+
+### Scenario:
+
+Roger:
+- several workload on AWS
+- architecting the disaster recovering approach
+- wants a **seamless** transition during an event
+
+Multi Site approach
+
+
+Jennifer:
+- they don't have an approach
+- they need to minimize cost is  more critical than minimizing RTO 
+
+Backup&Restore
+
+
+Eliza:
+- they keep **few key servers** up and running in AWS in case of an event
+- these servers have smaller instance types what production would need
+
+Which disaster approach most closely matches this scenario? Pilot Light
+
+## 6. Architecting Application on EC2
+
+Scaling on AWS:
+- **Vertical scaling**: "scaling up" our instance type to a larger instance type with additional resources
+- **Horizontal scaling**: "scaling out" add additional instances to handle the demand of our application 
+
+In the cloud Horizontal scaling is more sustainable approach than vertical scaling. In the vertical scaling we will need to to restart out instance for creating a new one with more resources. In horizontal scaling we create new copies of our original instance.
+
+**Amazon EC2 Horizontal Scaling Service**
+- **Auto Scaling Group**: set of EC2 instances with rules for scaling & management
+- **Elastic Load Balancer**: distributes traffic across multiple targets
+
+**Amazon EC2 Auto Scaling Group**
+This is like one of the deployment types of kubernetes (StatefullSet, Deployment, )
+- Launch template defines the instance configuration for the group (deployment yaml file)
+- defines the minimum, maximum, and desired number of instances
+- performs health checks on each instance
+- exist within 1 ore more availability zones in a single region. We span it in multiple available zones because this adds a level of fault tolerance in case of an AZ going down. 
+- works with "on-demand" and "spot" instances
+
+**EC2 Horizontal scaling example**:
+- First we have a region, and in this case this will be **"us-east-1"** 
+- inside of our region we have configured a **VPC** with an **Internet gateway**. This VPC will house our custom application. 
+- we have supported that across two different **Availability Zones** A and B 
+- we created our **auto scaling group**, and it exists within both availability zones, and we chose to have a desire **capacity of two**. So it's going to try to keep it balanced between the different availability zones. **So it will launch one instance in Availability Zone A and one instance in Availability Zone B**.
+
+![EC2 Horizontal Scaling example](./img/hs.png)
+
+- Now we wanna have users be able to be routed to a server, the server that has the most room to handle their request, and so we're going to have a specific type of **ELB** called an application load balancer. That's going to be between our users and the specific servers that they're going to be accessing. Now it knows how to work effectively with the **Auto scaling group**, so it knows what instances are healthy and which ones are not. So in the beginning, all of these instances air healthy, so the **application load balancer** can route the user traffic to either of the servers. 
+- However, let's say that something changes and the server that we have an availability zone A is no longer healthy. Well, the auto scaling group will note that it will let the application load balance or know that, and it will stop sending traffic to that particular server while the auto scaling group terminates that server and then goes in and actually starts a new server. Once that startup process is complete, it can communicate with the application load balancer and let it know that it is now safe to send traffic back to availability Zone A.
+
+
+**AWS Secrets Manager**: 
+- we need a way when scaling out to multiple servers to securely integrate things like credentials, API keys, tokens, and other secret content in a way that cant be compromised. Example are the credentials for the database, we can't store them in our public repositories.
+- Secrets Manager Integrates natively with RDS, DocumentDB, and Redshift
+- can auto-rotate credentials with integrated services
+- enables fine-grained access control to secrets, this means that we know exactly which servers adn what applications have access to which secret values that are stored within the **Secrets Manager**
+
+
+### 6.2 Controlling Access to EC2 Instances
+- **Security Groups**: enables firewall-like controls for resources within the VPC
+- **Network ACLs**: controls inbound and outbound traffic for subnets within the VPC
+- **AWS VPN**: secure access to an entire VPC using an encrypted tunnel
+
+**Security Groups**:
+- Serve as firewall for our EC2 instances
+- Control inbound and outbound traffic
+- this work at the instance level, associating an EC2 group with a specific instance
+- EC2 instances can belong to multiple security groups
+- VPCs have a default security group
+- must be explicitly associated with an EC2 instance
+- ** by default all outbound traffic is allowed**, our server can send any information out to the internet.
+
+
+What are **Access Control Lists**?
+ACLs are a network filter utilized by routers and some switches to permit and restrict data flows into and out of network interfaces. When an ACL is configured on an interface, the network device analyzes data passing through the interface, compares it to the criteria described in the ACL, and either permits the data to flow or prohibits it.
+
+
+**Network ACL**:
+ - works at the subnet level within an VPC, when we define a network configuration, every server that get spun up within a sub net will adopt the ACL for that subnet
+ - enables us to allow and deny traffic
+ - **each VPC has a default ACL that allows all inbound and outbound traffic**
+ - by default a new created custom ACLs denies all traffic until rules are added
+
+ **AWS VPN**
+ - creates an encrypted tunnel into our VPC. If we don't want our VPC to be accessed by the internet but we still want to have a way to get access to manage the servers tha are withing that VPC 
+ - can be used to connect our data center or even individual client machines to our VPC
+ - supports two services:
+    - Site-to-site VPN
+    - Client VPN
+
+**AWS Site-to-site VPN Example**:
+- So let's say that we have our own corporate data center and we have several servers 
+- need to interact with some EC2 instances that we have "spun up" within our VPC on AWS. 
+- we could utilize the AWS VPN service. We would create a customer gateway, and we would need to enter that information into the service. And then we would have a VPN gateway that would exist within our VPC on AWS. And once these things are in place and once they know how to communicate with one another, we then would be able to have encrypted traffic traveling back and forth between our corporate data center and eight of us. 
+
+![VPN example](./img/vpn.png)
+
+
+Now you may be asking, How is this different from **AWS Direct connect**? And that's a great question. With AWS Direct connect, you have a direct connection to the **AWS global infrastructure** that doesn't have to go over the **public Internet**. However, when you're using AWS VPN, that traffic does go over the Internet, it is just encrypted the entire way.
+
+### 6.3 Protecting Infrastructure from Attacks
+
+Security Services:
+- **AWS Shield**: managed DDoS protection service for apps on AWS
+- **Amazon Macie**: data protection service powered by machine learning
+- **Amazon Inspector**: automated security assessment service for EC2 instances
+
+**"Distributed Denial of Service (DDoS)"** is a type of attach where a server or group of servers are flooded with more traffic that they can handle in a coordinated effort to bring the system down.
+
+**AWS Shield**:
+- provides protection against DDoS attacks for apps running on AWS
+- enables on-going threat detection and mitigation
+- has tow different service levels:
+    - standard
+    - advanced
+
+**Amazon Macie**:
+- utilizes machine learning to analyze data stored in Amazon S3
+- it can detect personal information and intellectual property on S3
+- provides a dashboard that show how the data is being stored and accessed
+- enables alerts if it detects anything unusual about data access. if will search for anomaly detection on how our data is accessed.
+
+**Amazon Inspector**:
+- enables scanning of Amazon EC2 instances for security vulnerabilities. if we wanna be sure that our EC2 instance is ready and save for the internet then we use the Inspector to check for possible vulnerabilities in our configuration
+- charged by instance per assessment run
+- tow types of rules packages:
+    - **Network Reachability Assessment**. what is available to the internet from to our servers
+    - **Host Assessment** checks the state of configuration
+
+### 6.4 Deploying Pre-defined Solutions
+
+Deploying Pre-defined Solutions on AWS:
+- **AWS Service Catalog**: managed catalog of IT services on AWS for an organization
+    -  targeted to serve as an organizational service catalog for the cloud.
+    - can include single server image to multi-tier custom applications. can handle a wide variety of infrastructures needs on AWS
+    - enables organizations to leverage services that meet compliance. 
+    - supports a lifecycle for services released in the catalog
+- **AWS Marketplace**: catalog of software to run on AWS from third-party providers
+    - curated catalog of third-party solutions for customers to run AWS
+    - provides AMIs, CloudFromation stacks, and SaaS based solutions
+    - enables different pricing options to overcome licensing in the cloud
+    - charges appear on AWS bill
+
+### 6.5 Developer Tools
+
+AWS Developer Services:
+- **AWS CodeCommit**: manage source code repository deeply integrated with AWS
+- **AWS CodeBuild**: this is a build service or a CI/CD
+- **AWS CodeDeploy**: service that takes care of the deployment to different AWS services
+- **AWS CodePipeline**: this service knows how to work with all of the service previously mentioned to create to create a pipeline so we can go through and look at the entire process of building testing and ultimately deploying our applications.
+- **AWS CodeStar**: which gives a great way bootstrap this entire process for our custom application.
+
+
+**AWS CodeCommit**:
+- is a manages source control service on AWS
+- utilizes git for repositories
+- control access with IAM policies
+- serve as an alternative to Github and Bitbucket
+ 
+
+**AWS CodeBuild**:
+- fully managed build and continuous integration service on AWS CI/CD 
+- don't have to worry about maintaining infrastructure
+- charged per minute for compute resources we utilize 
+- takes care of building the application and creating the output artifacts
+
+**AWS CodeDeploy**:
+- managed deployment service for deploying our custom applications
+- deploys to EC2, Fargate(container service), Lambda, and on-premise servers
+- provides a dashboard for deployments in the AWS Console
+
+**AWS CodePipeline**: 
+- creates a fully managed continuous delivery service on AWS. knows how to integrate with the previous services that we mentioned above
+- provides capabilities to automate building, testing, and deploying
+- integrates with other developer tools as well as Github
+
+**AWS CodeStar**: this in not like a different service, but it is like a tool to make easier the use of the other services.
+- Workflow tool that automates the use of the other developer services
+- Can create a complete continuos delivery toolchain for a custom application 
+- Provides custom dashboards and configurations int the AWS Console
+- We are charged only for the other services you leverage
+
+
+### Scenarios:
+
+Ellen: 
+- made a transition to AWS
+- they want to be sure each department is following best practice
+- they want to create compliant IT services that other departments can use
+
+What service would you recommend? AWS Service Catalog, services for use in the organization. Instead MarketPlace would be for third party services that can be launch in AWS
+
+Tim: 
+- AWS for multiple workloads
+- they had downtime due to one of their application failing on EC2
+- Tim has to avoid downtime if an instance stop responding
+
+What approach would you recommend to Tim? Horizontal Scaling this means EC2 auto scaling Group alongside an Elastic Load Balancer 
+
+Jane:
+- sensitive information from the users
+- reasonable policies in place for data stored in S3
+- Jane is worried if some of those policies accidentally get changed could lead to a potential data breach
+- she is worried of a breach going unnoticed
+
+Macie in the way to use ML to classify the data, find the sensitive ones and monitor that data and its access patterns and can proactively alert them if it sees any anomaly happening within any of these patterns
+
+
+## Exam Part
 
 
